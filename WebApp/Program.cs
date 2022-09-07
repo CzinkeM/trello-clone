@@ -1,7 +1,11 @@
+using WebApp.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("Api"));
 
 var app = builder.Build();
 
