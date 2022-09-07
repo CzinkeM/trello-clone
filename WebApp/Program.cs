@@ -1,3 +1,4 @@
+using WebApp.Services;
 using WebApp.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
-builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("Api"));
+builder.Services.Configure<ApiOptions>(builder.Configuration.GetSection("Api"));
+builder.Services.AddHttpClient<IUserService, UserService>();
+builder.Services.AddHttpClient<ICardService, CardService>();
 
 var app = builder.Build();
 
