@@ -9,12 +9,14 @@ namespace WebApp.Services
     {
         private readonly ApiOptions _apiOptions;
         private readonly HttpClient _httpClient;
+        private readonly AuthenticationService _authenticationService;
         private readonly Uri baseUri;
 
-        public UserService(IOptions<ApiOptions> apiOptions, HttpClient httpClient)
+        public UserService(IOptions<ApiOptions> apiOptions, HttpClient httpClient, AuthenticationService authenticationService)
         {
             _apiOptions = apiOptions.Value;
             _httpClient = httpClient;
+            _authenticationService = authenticationService;
             baseUri = new Uri(_apiOptions.BaseUri);
             _httpClient.BaseAddress = baseUri;
         }
@@ -34,7 +36,7 @@ namespace WebApp.Services
             var jsonResponse = await _httpClient.PostAsJsonAsync(uri, request);
             jsonResponse.EnsureSuccessStatusCode();
             var response = await jsonResponse.Content.ReadFromJsonAsync<SignInResponse>();
-            Token = response.Token ?? "";
+            _authenticationService.Token = response.Token ?? "";
             return response;
         }
 
