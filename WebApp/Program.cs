@@ -9,6 +9,7 @@ builder.Services.AddHttpClient();
 builder.Services.Configure<ApiOptions>(builder.Configuration.GetSection("Api"));
 builder.Services.AddHttpClient<IUserService, UserService>();
 builder.Services.AddHttpClient<ICardService, CardService>();
+builder.Services.AddSingleton<AuthenticationService>();
 
 var app = builder.Build();
 
